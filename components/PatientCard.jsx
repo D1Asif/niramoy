@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 
-export default function PatientCard({patient}) {
+export default function PatientCard({ patient }) {
     return (
         <figure className="p-4 border border-black/10 shadow-sm dark:border-white/10 rounded-xl">
             <Image
@@ -14,9 +14,14 @@ export default function PatientCard({patient}) {
             />
             <figcaption className="pt-4">
                 <h3 className="text-xl mb-1">{patient?.name}</h3>
-                <p className="text-[#575A6E] text-sm mb-2 truncate">
-                    category
+                <p className="text-[#575A6E] dark:text-[#9698a8] text-md mb-2 truncate">
+                    Compound fracture of the tibia
                 </p>
+                <div class="flex flex-wrap gap-2">
+                    <span class="px-3 py-1 text-sm font-medium text-blue-700 bg-blue-100 rounded-full">Current status: Injured</span>
+                    <span class="px-3 py-1 text-sm font-medium text-pink-700 bg-pink-100 rounded-full">Injury Type: Critical</span>
+                    <span class="px-3 py-1 text-sm font-medium text-green-700 bg-green-100 rounded-full">Fund Required</span>
+                </div>
                 <div className="flex items-center space-x-1 mb-5">
                     {/* {
                         [...Array(Math.round(movie.vote_average))].map((_item, index) => (
