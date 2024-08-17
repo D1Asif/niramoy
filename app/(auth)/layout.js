@@ -1,5 +1,5 @@
 import { Sora } from "next/font/google";
-import "./globals.css";
+import "../globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -9,8 +9,8 @@ const sora = Sora({
 });
 
 export const metadata = {
-  title: "MovieDB",
-  description: "MovieDB displays movie details",
+  title: "Niramoy",
+  description: "Live database of injured patients in student movement",
 };
 
 export default function RootLayout({ children }) {
@@ -18,7 +18,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
             <body className={`${sora.className} dark:bg-body bg-white dark:text-white text-dark`}>
                 <header>
-                    <Navbar />
+                    <Navbar fromAuth={true} />
                 </header>
                 {children}
                 <Footer />
