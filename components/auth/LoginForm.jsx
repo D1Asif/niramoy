@@ -86,7 +86,7 @@ export default function LoginForm() {
                     type="email"
                     name="email"
                     id="email"
-                    placeholder="youremail.@domain.com"
+                    // placeholder="youremail@domain.com"
                     handleChange={handleChange}
                     error={error.email}
                 />
@@ -95,7 +95,7 @@ export default function LoginForm() {
                     type="password"
                     name="password"
                     id="password"
-                    placeholder="*******"
+                    // placeholder="*******"
                     handleChange={handleChange}
                     error={error.password}
                 />
@@ -108,7 +108,7 @@ export default function LoginForm() {
                 </div>
                 <Link href="#" className="text-primary">Forgot password</Link>
             </div> */}
-            <div className="mt-4">
+            <div className="mt-4 mb-6">
                 <button
                     type="submit"
                     disabled={isError}
@@ -116,6 +116,13 @@ export default function LoginForm() {
                 >
                     Login
                 </button>
+            </div>
+            <hr className="mb-4 border-gray-400/20" />
+            <div className="flex justify-center text-md">
+                <p className="text-gray-500/70">
+                    Don&apos;t have an account? &nbsp;
+                    <Link href="/signup" className="underline text-gray-700 dark:text-gray-300 hover:text-primary">Sign up</Link>
+                </p>
             </div>
         </form>
     )

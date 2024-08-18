@@ -1,7 +1,9 @@
-import React from 'react'
+import SignupForm from "@/components/auth/SignupForm";
 
 export default function SignupPage() {
   return (
-    <div>SignupPage</div>
+    <div className="flex justify-center items-center min-h-[75vh]">
+      <SignupForm />
+    </div>
   )
 }
