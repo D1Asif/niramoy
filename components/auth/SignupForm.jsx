@@ -109,10 +109,12 @@ export default function SignupForm() {
                 password
             });
 
+            console.log(res);
+
             if (res.status === 200) {
-                router.push("/login");
+                router.push("/login?signup=success");
             } else {
-                throw new Error(`Error: ${res.status}`);
+                throw new Error(`Error ${res.status}: ${res.result.detail}`);
             }
         } catch (err) {
             console.log(err);
@@ -133,7 +135,7 @@ export default function SignupForm() {
             className="w-full md:max-w-[500px] max-w-[350px]"
         >
             <h1 className="text-2xl font-semibold text-center mb-2">Sign up</h1>
-            {error.general && <p className="text-sm text-red-500 text-center">{error.general}</p>}
+            {error.general && <p className="text-sm text-red-500 text-center py-1">{error.general}</p>}
             <div className="space-y-2">
                 <FormField
                     label="Username"

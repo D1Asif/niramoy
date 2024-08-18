@@ -5,7 +5,7 @@ export default async function Home() {
   const response = await fetch(`${process.env.API_BASE_URL}/patients`);
   const patients = await response.json();
   console.log(patients);
-  console.log("Hello");
+  
   return (
     <div className="container">
         <Header />

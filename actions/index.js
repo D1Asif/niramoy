@@ -1,7 +1,6 @@
 "use server"
 
 export const userSignUp = async (userData) => {
-    console.log(userData);
     const res = await fetch(`http://138.2.66.110:8212/signup`, {
         method: "POST",
         headers: {
