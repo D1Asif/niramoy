@@ -5,11 +5,12 @@ import { useState } from "react";
 import { z } from "zod";
 import FormField from "./FormField";
 import { useRouter } from "next/navigation";
+import { userSignUp } from "@/actions";
 
 
 export default function SignupForm() {
     const [error, setError] = useState({
-        name: "",
+        username: "",
         email: "",
         password: "",
         confirm: "",
@@ -18,10 +19,17 @@ export default function SignupForm() {
     });
     const router = useRouter();
 
-    const isError = !!(error.name || error.email || error.password || error.confirm);
+    const isError = !!(error.username || error.email || error.password || error.confirm);
 
     const formSchema = z.object({
-        name: z.string().trim().min(1, "Name is required"),
+        username: z.string()
+            .min(3, 'Username must be at least 3 characters long')
+            .max(20, 'Username cannot exceed 20 characters')
+            .trim()
+            .refine(
+                (str) => !/\s/.test(str),
+                'Username cannot contain spaces'
+            ),
         email: z.string().email('Invalid email address'),
         password: z.string().min(8, "Password must be 8 characters long"),
         confirm: z.string().min(8, "Password must be 8 characters long")
@@ -58,7 +66,7 @@ export default function SignupForm() {
         e.preventDefault();
 
         setError({
-            name: "",
+            username: "",
             email: "",
             password: "",
             confirm: "",
@@ -67,21 +75,12 @@ export default function SignupForm() {
         })
 
         const formData = new FormData(e.currentTarget);
-        const name = formData.get("name");
+        const username = formData.get("username");
         const email = formData.get("email");
         const password = formData.get("password");
         const confirmPassword = formData.get("confirm");
-        const agreement = formData.get("agreement") === "on";
 
         let errorOccurred = false;
-
-        if (agreement !== true) {
-            errorOccurred = true;
-            setError({
-                ...error,
-                agreement: "You must agree to terms & conditions to proceed"
-            })
-        }
 
         if (password !== confirmPassword) {
             errorOccurred = true;
@@ -95,18 +94,22 @@ export default function SignupForm() {
             return;
         }
 
-        try {
-            const res = await fetch(`/api/auth/register`, {
-                method: "POST",
-                "Content-Type": "application/json",
-                body: JSON.stringify({
-                    name,
-                    email,
-                    password
-                })
-            })
+        console.log(
+            {
+                username,
+                email,
+                password
+            }
+        );
 
-            if (res.status === 201) {
+        try {
+            const res = await userSignUp({
+                username,
+                email,
+                password
+            });
+
+            if (res.status === 200) {
                 router.push("/login");
             } else {
                 throw new Error(`Error: ${res.status}`);
@@ -114,7 +117,7 @@ export default function SignupForm() {
         } catch (err) {
             console.log(err);
             setError({
-                name: "",
+                username: "",
                 email: "",
                 password: "",
                 confirm: "",
@@ -130,15 +133,15 @@ export default function SignupForm() {
             className="w-full md:max-w-[500px] max-w-[350px]"
         >
             <h1 className="text-2xl font-semibold text-center mb-2">Sign up</h1>
-            {error.general && <p className="text-sm text-red-500">{error.general}</p>}
+            {error.general && <p className="text-sm text-red-500 text-center">{error.general}</p>}
             <div className="space-y-2">
                 <FormField
-                    label="Full Name"
+                    label="Username"
                     type="text"
-                    name="name"
-                    id="name"
+                    name="username"
+                    id="username"
                     handleChange={handleChange}
-                    error={error.name}
+                    error={error.username}
                 // placeholder="Jon Snow"
                 />
                 <FormField
