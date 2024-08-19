@@ -1,61 +1,11 @@
 import Image from "next/image";
+import ImageGallery from "../common/ImageGallery";
 
-export default function PatientDetails() {
+export default function PatientDetails({patient}) {
+    
     return (
         <section>
-            <div className="p-4 border border-black/10 shadow-sm dark:border-white/10 rounded-xl mb-10">
-                <Image
-                    className="w-full p-2 object-contain max-h-[300px] lg:max-h-[500px]"
-                    src="/patient1.jpg"
-                    height={500}
-                    width={500}
-                    alt="Patient Image"
-                />
-                <div className="flex flex-wrap justify-center mt-2 gap-3">
-                    <Image
-                        src="/patient1.jpg"
-                        alt="Patient Image"
-                        height={200}
-                        width={200}
-                        className="hover:border-green-400 hover:border-4 hover:rounded-md rounded-md object-cover max-w-[100px] md:max-w-[200px]"
-                    />
-                    <Image
-                        src="/patient1.jpg"
-                        alt="Patient Image"
-                        height={200}
-                        width={200}
-                        className="hover:border-green-400 hover:border-4 hover:rounded-md rounded-md object-cover max-w-[100px] md:max-w-[200px]"
-                    />
-                    <Image
-                        src="/patient1.jpg"
-                        alt="Patient Image"
-                        height={200}
-                        width={200}
-                        className="hover:border-green-400 hover:border-4 hover:rounded-md rounded-md object-cover max-w-[100px] md:max-w-[200px]"
-                    />
-                    <Image
-                        src="/patient1.jpg"
-                        alt="Patient Image"
-                        height={200}
-                        width={200}
-                        className="hover:border-green-400 hover:border-4 hover:rounded-md rounded-md object-cover max-w-[100px] md:max-w-[200px]"
-                    />
-                    <Image
-                        src="/patient1.jpg"
-                        alt="Patient Image"
-                        height={200}
-                        width={200}
-                        className="hover:border-green-400 hover:border-4 hover:rounded-md rounded-md object-cover max-w-[100px] md:max-w-[200px]"
-                    />
-                    <Image
-                        src="/patient1.jpg"
-                        alt="Patient Image"
-                        height={200}
-                        width={200}
-                        className="hover:border-green-400 hover:border-4 hover:rounded-md rounded-md object-cover max-w-[100px] md:max-w-[200px]"
-                    />
-                </div>
-            </div>
+            <ImageGallery images={['/patient1.jpg', '/patient2.jpg']} imageOf="Injury" />
 
             <div className="mt-5 border-b-2 border-gray-400/20 md:mx-40 text-slate-600 dark:text-slate-300">
                 <h2 className="font-bold text-2xl">
@@ -98,31 +48,7 @@ export default function PatientDetails() {
                     Documents
                 </h2>
                 <p className="mb-3">Medical proofs, prescription, medical bills etc.</p>
-                <div className="p-4 border border-black/10 shadow-sm dark:border-white/10 rounded-xl mb-10">
-                    <Image
-                        className="w-full p-2 object-contain max-h-[300px] lg:max-h-[500px]"
-                        src="/patient1.jpg"
-                        height={500}
-                        width={500}
-                        alt="Patient Image"
-                    />
-                    <div className="flex flex-wrap justify-center mt-2 gap-3">
-                        <Image
-                            src="/patient1.jpg"
-                            alt="Patient Image"
-                            height={200}
-                            width={200}
-                            className="hover:border-green-400 hover:border-4 hover:rounded-md rounded-md object-cover max-w-[100px] md:max-w-[200px]"
-                        />
-                        <Image
-                            src="/patient1.jpg"
-                            alt="Patient Image"
-                            height={200}
-                            width={200}
-                            className="hover:border-green-400 hover:border-4 hover:rounded-md rounded-md object-cover max-w-[100px] md:max-w-[200px]"
-                        />
-                    </div>
-                </div>
+                <ImageGallery images={['/patient1.jpg', '/patient2.jpg']} imageOf="Document" />
             </div>
         </section>
     )
