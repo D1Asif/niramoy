@@ -1,4 +1,3 @@
-import Image from "next/image";
 import ImageGallery from "../common/ImageGallery";
 import { convertDate } from "@/utils";
 
@@ -7,7 +6,7 @@ export default function PatientDetails({patient}) {
 
     return (
         <section>
-            <ImageGallery images={['/patient1.jpg', '/patient2.jpg']} imageOf="Injury" />
+            <ImageGallery images={patient?.injury_photos} imageOf="Injury" />
 
             <div className="mt-5 border-b-2 border-gray-400/20 md:mx-40 text-slate-600 dark:text-slate-300">
                 <h2 className="font-bold text-2xl">
@@ -52,7 +51,7 @@ export default function PatientDetails({patient}) {
                     Documents
                 </h2>
                 <p className="mb-3">Medical proofs, prescription, medical bills etc.</p>
-                <ImageGallery images={['/patient1.jpg', '/patient2.jpg']} imageOf="Document" />
+                <ImageGallery images={patient?.documents} imageOf="Document" />
             </div>
         </section>
     )

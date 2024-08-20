@@ -5,19 +5,27 @@ import FormField from "./FormField";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { z } from "zod";
+import { signIn } from "next-auth/react";
 
 export default function LoginForm() {
     const [error, setError] = useState({
-        email: "",
+        username: "",
         password: "",
         general: ""
     });
     const router = useRouter();
 
-    const isError = !!(error.email || error.password);
+    const isError = !!(error.username || error.password);
 
     const formSchema = z.object({
-        email: z.string().email('Invalid email address'),
+        username: z.string()
+            .min(3, 'Username must be at least 3 characters long')
+            .max(20, 'Username cannot exceed 20 characters')
+            .trim()
+            .refine(
+                (str) => !/\s/.test(str),
+                'Username cannot contain spaces'
+            ),
         password: z.string().min(8, "Password must be 8 characters long")
     })
 
@@ -43,52 +51,55 @@ export default function LoginForm() {
             console.log(err);
             setError({
                 ...error,
-                email: err.message
+                username: err.message
             })
         }
     }
 
     const handleSubmit = async (e) => {
-        // e.preventDefault();
+        e.preventDefault();
 
-        // const formData = new FormData(e.currentTarget);
+        const formData = new FormData(e.currentTarget);
 
-        // const email = formData.get("email");
-        // const password = formData.get("password");
+        const username = formData.get("username");
+        const password = formData.get("password");
 
-        // try {
-        //     const res = await signIn("credentials", {
-        //         email: email,
-        //         password: password,
-        //         redirect: false
-        //     })
-        //     if (res.error) {
-        //         throw new Error("Credentials do not match!");
-        //     } else {
-        //         router.push("/account");
-        //     }
-        // } catch (err) {
-        //     setError({
-        //         ...error,
-        //         general: err.message
-        //     })
-        // }
+        console.log({username, password});
+
+        try {
+            const res = await signIn("credentials", {
+                username: username,
+                password: password,
+                redirect: false
+            })
+            console.log(res);
+            if (res.error) {
+                throw new Error("Credentials do not match!");
+            } else {
+                router.push("/account");
+            }
+        } catch (err) {
+            setError({
+                ...error,
+                general: err.message
+            })
+        }
     }
     return (
         <form action="#" method="post" autoComplete="off" onSubmit={handleSubmit}
             className="w-full md:max-w-[500px] max-w-[350px]"
         >
             <h1 className="text-2xl font-semibold text-center mb-2">Login</h1>
-            {error.general && <p className="text-sm text-red-500 mb-1">{error.general}</p>}
+            {error.general && <p className="text-sm text-red-500 text-center py-1">{error.general}</p>}
             <div className="space-y-2">
                 <FormField
-                    label="Email Address"
-                    type="email"
-                    name="email"
-                    id="email"
+                    label="Username"
+                    type="text"
+                    name="username"
+                    id="username"
                     // placeholder="youremail@domain.com"
                     handleChange={handleChange}
-                    error={error.email}
+                    error={error.username}
                 />
                 <FormField
                     label="Password"

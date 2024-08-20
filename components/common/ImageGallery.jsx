@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 
 export default function ImageGallery({images, imageOf}) {
-    const [selectedImage, setSelectedImage] = useState(images.length > 0 ? images[0] : "/patient1.jpg");
+    const [selectedImage, setSelectedImage] = useState(images?.length > 0  ? images[0] : "/patient1.jpg");
 
     return (
         <div className="p-4 border border-black/10 shadow-sm dark:border-white/10 rounded-xl mb-10">
@@ -17,7 +17,7 @@ export default function ImageGallery({images, imageOf}) {
             />
             <div className="flex flex-wrap justify-center mt-2 gap-3">
                 {
-                    !!images.length && (
+                    !!images?.length && (
                         images.map((image) => (
                             <Image
                                 key={image}
@@ -31,48 +31,6 @@ export default function ImageGallery({images, imageOf}) {
                         ))
                     )
                 }
-                {/* <Image
-                    src="/patient1.jpg"
-                    alt="Patient Image"
-                    height={200}
-                    width={200}
-                    className="hover:border-green-400 hover:border-4 hover:rounded-md rounded-md object-cover max-w-[100px] md:max-w-[200px]"
-                />
-                <Image
-                    src="/patient1.jpg"
-                    alt="Patient Image"
-                    height={200}
-                    width={200}
-                    className="hover:border-green-400 hover:border-4 hover:rounded-md rounded-md object-cover max-w-[100px] md:max-w-[200px]"
-                />
-                <Image
-                    src="/patient1.jpg"
-                    alt="Patient Image"
-                    height={200}
-                    width={200}
-                    className="hover:border-green-400 hover:border-4 hover:rounded-md rounded-md object-cover max-w-[100px] md:max-w-[200px]"
-                />
-                <Image
-                    src="/patient1.jpg"
-                    alt="Patient Image"
-                    height={200}
-                    width={200}
-                    className="hover:border-green-400 hover:border-4 hover:rounded-md rounded-md object-cover max-w-[100px] md:max-w-[200px]"
-                />
-                <Image
-                    src="/patient1.jpg"
-                    alt="Patient Image"
-                    height={200}
-                    width={200}
-                    className="hover:border-green-400 hover:border-4 hover:rounded-md rounded-md object-cover max-w-[100px] md:max-w-[200px]"
-                />
-                <Image
-                    src="/patient1.jpg"
-                    alt="Patient Image"
-                    height={200}
-                    width={200}
-                    className="hover:border-green-400 hover:border-4 hover:rounded-md rounded-md object-cover max-w-[100px] md:max-w-[200px]"
-                /> */}
             </div>
         </div>
     )
