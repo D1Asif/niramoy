@@ -109,10 +109,8 @@ export default function SignupForm() {
                 password
             });
 
-            console.log(res);
-
             if (res.status === 200) {
-                router.push("/login?signup=success");
+                router.push("/login?toast_message=signup_success");
             } else {
                 throw new Error(`Error ${res.status}: ${res.result.detail}`);
             }

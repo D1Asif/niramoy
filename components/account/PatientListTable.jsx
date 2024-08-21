@@ -4,7 +4,7 @@ import Link from "next/link";
 export default function PatientListTable() {
     return (
         <>
-            <div className="flex justify-between items-center border-t border-black/10 dark:border-white/10 pt-8">
+            <div className="flex justify-between items-center border-t border-black/10 dark:border-white/10 pt-6">
                 <h3 className="text-xl font-semibold text-primary">
                     Created/Updated Patients
                 </h3>

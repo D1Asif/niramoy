@@ -6,7 +6,7 @@ export default async function AccountPage() {
     const session = await auth();
 
     if (!session?.user) {
-        redirect("/login?flag=login_required")
+        redirect("/login?toast_message=login_required")
     }
 
     return (

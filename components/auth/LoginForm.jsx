@@ -64,15 +64,13 @@ export default function LoginForm() {
         const username = formData.get("username");
         const password = formData.get("password");
 
-        console.log({username, password});
-
         try {
             const res = await signIn("credentials", {
                 username: username,
                 password: password,
                 redirect: false
             })
-            console.log(res);
+            
             if (res.error) {
                 throw new Error("Credentials do not match!");
             } else {
