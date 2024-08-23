@@ -1,4 +1,4 @@
-export default function FormField({ type, name, id, handleChange, error, label, placeholder, options }) {
+export default function FormField({ type, name, id, handleChange, error, label, placeholder, options, required }) {
     return (
         <div>
             <label htmlFor={id} className="text-gray-600 mb-2 block">
@@ -25,6 +25,7 @@ export default function FormField({ type, name, id, handleChange, error, label, 
                     className="block w-full border border-gray-400/30 px-4 py-3 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400 bg-transparent"
                     placeholder={placeholder}
                     onChange={handleChange}
+                    required={required}
                 />
             )}
             {error && <p className="text-red-500 text-sm leading-6">{error}</p>}

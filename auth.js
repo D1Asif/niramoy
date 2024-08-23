@@ -40,8 +40,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                         authToken: data.access_token
                     }
 
-                    console.log(user);
-
                     return user;
 
                 } catch (error) {

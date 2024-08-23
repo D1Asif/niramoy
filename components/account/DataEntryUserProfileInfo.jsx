@@ -6,7 +6,23 @@ import DataEntryUserInfoForm from "./DataEntryUserInfoForm";
 import { FaCheck, FaEdit } from "react-icons/fa";
 
 export default function DataEntryUserProfileInfo() {
-    const [isEditing, setIsEditing] = useState(true);
+    const [isEditing, setIsEditing] = useState(false);
+
+    const isDataEntryUserRegistered = true;
+
+    if (!isDataEntryUserRegistered && !isEditing) {
+        return (
+            <>
+                <div className="flex justify-between items-center border-b border-black/10 dark:border-white/10 pb-4">
+                    <h3 className="text-xl font-semibold text-primary">Data Entry User Profile</h3>
+                </div>
+                <div className="py-6">
+                    You have not registered as a data entry user yet. &nbsp;
+                    <span className="underline cursor-pointer hover:text-primary" onClick={() => setIsEditing(true)}>Register now</span>
+                </div>
+            </>
+        )
+    }
 
     return (
         <>
