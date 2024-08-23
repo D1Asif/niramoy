@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 
-export default function PatientListTable() {
+export default function PatientListTable({ userPatients }) {
     return (
         <>
             <div className="flex justify-between items-center border-t border-black/10 dark:border-white/10 pt-6">
@@ -16,36 +16,41 @@ export default function PatientListTable() {
                     </button>
                 </Link>
             </div>
-            <div className="overflow-x-auto py-4">
-                <table className="w-full text-left">
-                    <thead className="">
-                        <tr>
-                            <th className="px-4 py-2 text-gray-400">Serial</th>
-                            <th className="px-4 py-2 text-gray-400">Name</th>
-                            <th className="px-4 py-2 text-gray-400">Date</th>
-                            <th className="px-4 py-2 text-gray-400">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody className="">
-                        <tr>
-                            <td className="px-4 py-2">1</td>
-                            <td className="px-4 py-2">Abul Kabul</td>
-                            <td className="px-4 py-2">01-05-2023 01:12 AM</td>
-                            <td className="px-4 py-2">
-                                <button className="text-primary hover:underline">Remove</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className="px-4 py-2">2</td>
-                            <td className="px-4 py-2">Dabul Ebul</td>
-                            <td className="px-4 py-2">27-08-2021 07:27 AM</td>
-                            <td className="px-4 py-2">
-                                <button className="text-primary hover:underline">Remove</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            {
+                !!userPatients?.length ? (
+                    <div className="overflow-x-auto py-4">
+                        <table className="w-full text-left">
+                            <thead className="">
+                                <tr>
+                                    <th className="px-4 py-2 text-gray-400">Serial</th>
+                                    <th className="px-4 py-2 text-gray-400">Name</th>
+                                    <th className="px-4 py-2 text-gray-400">Status</th>
+                                    <th className="px-4 py-2 text-gray-400">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody className="">
+                                {
+                                    userPatients?.map((patient, key) => (
+                                        <tr>
+                                            <td className="px-4 py-2">{key + 1}</td>
+                                            <td className="px-4 py-2">{patient?.name}</td>
+                                            <td className="px-4 py-2">{patient?.current_status}</td>
+                                            <td className="px-4 py-2">
+                                                <Link href={`/patients/${patient?.id}`} className="text-primary hover:underline">visit</Link>
+                                            </td>
+                                        </tr>
+                                    ))
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                ) : (
+                    <div className="py-3">
+                        You have not created any patient entry yet.
+                    </div>
+                )
+            }
+
         </>
 
     )

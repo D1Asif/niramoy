@@ -3,6 +3,8 @@
 import { useState } from "react";
 import FormField from "../auth/FormField";
 import { z } from "zod";
+import { createPatientAction } from "@/actions";
+import MultiSelector from "../common/MultiSelector";
 
 export default function CreateNewPatientForm() {
     const [error, setError] = useState({
@@ -13,6 +15,7 @@ export default function CreateNewPatientForm() {
         contactNumber: "",
         additionalInfo: "",
         injuryCurrentStatus: "",
+        injuryType: "",
         injuryDetails: "",
         bloodGroup: "",
         dateAndTimeOfAdmission: "",
@@ -26,47 +29,57 @@ export default function CreateNewPatientForm() {
         raisedFundAmount: ""
     });
 
-    const isError = !!(error.username || error.password);
+    const [tags, setTags] = useState([]);
+
+    const isError = Object.values(error).some(Boolean);
 
     const formSchema = z.object({
-        name: z.string().min(1, { message: "Name is required" }),
-        contactNumber: z.string()
-            .regex(/^[0-9]+$/, { message: "Contact number must contain only digits (0-9)" })
-            .min(11, { message: "Contact number must be 11 digits" })
-            .max(11, { message: "Contact number must be 11 digits" }),
-        address: z.string().min(1, { message: "Address is required" }),
-        bloodGroup: z.enum(["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"], { message: "Invalid blood group" }),
-        occupation: z.string().min(1, { message: "Occupation is required" }),
-        institution: z.string().min(1, { message: "Institution is required" }),
-        institutionalAddress: z.string().min(1, { message: "Institutional address is required" }),
-        nid: z.string().min(1, { message: "NID is required" }),
+        name: z.string().min(2).max(50),
+        age: z.string().regex(/^\d+$/, 'Age must be a positive integer'),
+        address: z.string(),
+        gender: z.enum(['Male', 'Female', 'Other'], 'Gender must be one of Male, Female, or Other'),
+        contactNumber: z.string().regex(/^\d{11}$/, "Contact number must be 11 digits long"), // Assuming 11-digit number
+        additionalInfo: z.string().optional(),
+        injuryCurrentStatus: z.string(),
+        injuryType: z.string(),
+        injuryDetails: z.string(),
+        bloodGroup: z.enum(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']),
+        dateAndTimeOfAdmission: z.string().date("Must be in YYYY-MM-DD format"),
+        dateAndTimeOfInjury: z.string().date("Must be in YYYY-MM-DD format"),
+        // photosOfInjury: z.string(),
+        hospital: z.string(),
+        affectedBodyParts: z.string(),
+        // documents: z.array(z.string()),
+        requiredFundType: z.string(),
+        // requiredFundAmount: z.number().positive(), // Uncomment if required
+        raisedFundAmount: z.string().regex(/^\d+$/, 'Amount must be a positive integer'),
     })
 
     const handleChange = (e) => {
-        // const { name, value } = e.target;
+        const { name, value } = e.target;
 
-        // try {
-        //     const fieldSchema = formSchema.pick({ [name]: true });
-        //     const res = fieldSchema.safeParse({ [name]: value });
-        //     if (res.success === true) {
-        //         setError({
-        //             ...error,
-        //             [name]: null
-        //         })
-        //     } else {
-        //         const resError = JSON.parse(res.error.message)
-        //         setError({
-        //             ...error,
-        //             [name]: resError[0].message
-        //         })
-        //     }
-        // } catch (err) {
-        //     console.log(err);
-        //     setError({
-        //         ...error,
-        //         username: err.message
-        //     })
-        // }
+        try {
+            const fieldSchema = formSchema.pick({ [name]: true });
+            const res = fieldSchema.safeParse({ [name]: value });
+            if (res.success === true) {
+                setError({
+                    ...error,
+                    [name]: null
+                })
+            } else {
+                const resError = JSON.parse(res.error.message)
+                setError({
+                    ...error,
+                    [name]: resError[0].message
+                })
+            }
+        } catch (err) {
+            console.log(err);
+            setError({
+                ...error,
+                username: err.message
+            })
+        }
     }
 
     return (
@@ -76,7 +89,7 @@ export default function CreateNewPatientForm() {
                     Patient Info
                 </h3>
             </div>
-            <form autoComplete="off">
+            <form action={createPatientAction} autoComplete="off">
                 {error.general && <p className="text-sm text-red-500 text-center pt-3">{error.general}</p>}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 py-4">
                     <div>
@@ -109,8 +122,7 @@ export default function CreateNewPatientForm() {
                     </div>
                     <div>
                         <p className="text-gray-400">
-                            Address
-                            <span className="text-red-600"> *</span>
+                            Address (Patient&apos;s home)
                         </p>
                         <FormField
                             type="text"
@@ -183,7 +195,26 @@ export default function CreateNewPatientForm() {
                     </div>
                     <div>
                         <p className="text-gray-400">
-                            Injury details
+                            Injury type
+                            <span className="text-red-600"> *</span>
+                        </p>
+                        <FormField
+                            type="select"
+                            name="injuryType"
+                            id="injuryType"
+                            required={true}
+                            options={[
+                                "Major",
+                                "Minor",
+                                "Critical"
+                            ]}
+                            handleChange={handleChange}
+                            error={error.injuryType}
+                        />
+                    </div>
+                    <div>
+                        <p className="text-gray-400">
+                            Injury/medical details
                             <span className="text-red-600"> *</span>
                         </p>
                         <FormField
@@ -221,7 +252,7 @@ export default function CreateNewPatientForm() {
                     </div>
                     <div>
                         <p className="text-gray-400">
-                            Date and Time of Injury
+                            Date of Injury (YYYY-MM-DD)
                             <span className="text-red-600"> *</span>
                         </p>
                         <FormField
@@ -235,7 +266,7 @@ export default function CreateNewPatientForm() {
                     </div>
                     <div>
                         <p className="text-gray-400">
-                            Date and Time of Admission
+                            Date of Admission (YYYY-MM-DD)
                             <span className="text-red-600"> *</span>
                         </p>
                         <FormField
@@ -253,6 +284,7 @@ export default function CreateNewPatientForm() {
                         </p>
                         <FormField
                             type="file"
+                            multiple={true}
                             name="photosOfInjury"
                             id="photosOfInjury"
                             handleChange={handleChange}
@@ -278,14 +310,23 @@ export default function CreateNewPatientForm() {
                             Affected body parts
                             <span className="text-red-600"> *</span>
                         </p>
-                        <FormField
+                        <input
+                            type="text"
+                            id="affectedBodyParts"
+                            name="affectedBodyParts"
+                            hidden
+                            value={tags.join(",")}
+                            readOnly
+                        />
+                        <MultiSelector setterFunction={setTags} />
+                        {/* <FormField
                             type="text"
                             name="affectedBodyParts"
                             id="affectedBodyParts"
                             required={true}
                             handleChange={handleChange}
                             error={error.affectedBodyParts}
-                        />
+                        /> */}
                     </div>
                     <div>
                         <p className="text-gray-400">
@@ -293,6 +334,7 @@ export default function CreateNewPatientForm() {
                         </p>
                         <FormField
                             type="file"
+                            multiple={true}
                             name="documents"
                             id="documents"
                             handleChange={handleChange}
@@ -301,7 +343,7 @@ export default function CreateNewPatientForm() {
                     </div>
                     <div>
                         <p className="text-gray-400">
-                            Required fund type
+                            Fund requirement
                             <span className="text-red-600"> *</span>
                         </p>
                         <FormField
@@ -334,7 +376,6 @@ export default function CreateNewPatientForm() {
                     <div>
                         <p className="text-gray-400">
                             Raised fund amount
-                            <span className="text-red-600"> *</span>
                         </p>
                         <FormField
                             type="text"

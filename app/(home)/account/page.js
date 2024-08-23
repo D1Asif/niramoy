@@ -11,7 +11,7 @@ export default async function AccountPage() {
 
     return (
         <div className="container">
-            <ProfileCard />
+            <ProfileCard user={session?.user} />
         </div>
     );
 }
