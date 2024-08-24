@@ -53,30 +53,62 @@ export const dataEntryUserInfoFormAction = async (formData) => {
     const institution = formData.get("institution");
     const institutionalAddress = formData.get("institutionalAddress");
     const nid = formData.get("nid");
+    const actionType = formData.get("actionType");
+    const dataEntryUserId = formData.get("dataEntryUserId");
+
+    let success = true;
 
     try {
-        const uploadedImageData = await imageUpload(nid);
+        let uploadedImageData;
 
-        const res = await fetch(`${process.env.API_BASE_URL}/data-entry-users`, {
-            method: 'POST',
+        if (nid?.size) {
+            uploadedImageData = await imageUpload(nid);
+        }
+
+        let updateBody = {
+            address,
+            blood_group: bloodGroup,
+            contact_number: contactNumber,
+            institution,
+            institution_address: institutionalAddress,
+            name,
+            occupation,
+            updated_by: "User"
+        }
+
+        if (uploadedImageData) {
+            updateBody = {
+                ...updateBody,
+                nid_image: uploadedImageData.url
+            }
+        }
+
+        const fetchUrl =  actionType === "Update" ? `${process.env.API_BASE_URL}/data-entry-users/${dataEntryUserId}` : `${process.env.API_BASE_URL}/data-entry-users`
+
+        const res = await fetch(fetchUrl, {
+            method: actionType === "Update" ? "PUT" : "POST",
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${session?.user?.authToken}`
             },
             body: JSON.stringify(
-                {
-                    address,
-                    blood_group: bloodGroup,
-                    contact_number: contactNumber,
-                    created_by: "User",
-                    email: session?.user?.email,
-                    institution,
-                    institution_address: institutionalAddress,
-                    name,
-                    nid_image: uploadedImageData.url,
-                    occupation,
-                    updated_by: "User"
-                }
+                actionType === "Update" ? (
+                    updateBody
+                ) : (
+                    {
+                        address,
+                        blood_group: bloodGroup,
+                        contact_number: contactNumber,
+                        created_by: "User",
+                        email: session?.user?.email,
+                        institution,
+                        institution_address: institutionalAddress,
+                        name,
+                        nid_image: uploadedImageData.url,
+                        occupation
+                    }
+                )
+
             )
         });
 
@@ -85,13 +117,19 @@ export const dataEntryUserInfoFormAction = async (formData) => {
 
         if (res.ok) {
             console.log("Success");
-            redirect("/account");
         } else {
             throw new Error("Data entry user create/update failed!")
         }
 
     } catch (err) {
+        success = false;
         console.log(err);
+        redirect("/account?toast_message=error")
+    }
+
+    if (success) {
+        redirect("/account?toast_message=success")
+    } else {
         redirect("/account?toast_message=error")
     }
 }
@@ -106,6 +144,7 @@ export const createPatientAction = async (formData) => {
     const injuryCurrentStatus = formData.get("injuryCurrentStatus");
     const injuryType = formData.get("injuryType");
     const injuryDetails = formData.get("injuryDetails");
+    const crisis = formData.get("crisis");
     const bloodGroup = formData.get("bloodGroup");
     const dateAndTimeOfInjury = formData.get("dateAndTimeOfInjury");
     const dateAndTimeOfAdmission = formData.get("dateAndTimeOfAdmission");
@@ -152,6 +191,7 @@ export const createPatientAction = async (formData) => {
                         blood_group: bloodGroup,
                         contact_number: contactNumber,
                         created_by: session?.user?.username,
+                        crisis_type: crisis,
                         current_address: hospital,
                         current_status: injuryCurrentStatus,
                         data_entry_personnel: session?.user?.username,

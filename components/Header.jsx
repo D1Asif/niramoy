@@ -4,8 +4,8 @@ export default function Header() {
     return (
         <>
             <div className="flex justify-center">
-                <h1 className="py-3 font-semibold text-4xl">
-                    Live Database of Injured Patients in the Student Movement
+                <h1 className="py-3 font-semibold text-4xl lg:max-w-[900px] lg:text-center lg:leading-tight">
+                    Live Database of Patients from the Student Movement & Flood
                 </h1>
             </div>
             <div className="flex flex-col md:flex-row justify-center p-4 space-y-4 md:space-y-0 md:space-x-4">

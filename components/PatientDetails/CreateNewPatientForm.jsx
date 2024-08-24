@@ -17,6 +17,7 @@ export default function CreateNewPatientForm() {
         injuryCurrentStatus: "",
         injuryType: "",
         injuryDetails: "",
+        crisis: "",
         bloodGroup: "",
         dateAndTimeOfAdmission: "",
         dateAndTimeOfInjury: "",
@@ -43,6 +44,7 @@ export default function CreateNewPatientForm() {
         injuryCurrentStatus: z.string(),
         injuryType: z.string(),
         injuryDetails: z.string(),
+        crisis: z.string(),
         bloodGroup: z.enum(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']),
         dateAndTimeOfAdmission: z.string().date("Must be in YYYY-MM-DD format"),
         dateAndTimeOfInjury: z.string().date("Must be in YYYY-MM-DD format"),
@@ -224,6 +226,24 @@ export default function CreateNewPatientForm() {
                             required={true}
                             handleChange={handleChange}
                             error={error.injuryDetails}
+                        />
+                    </div>
+                    <div>
+                        <p className="text-gray-400">
+                            Patient of
+                            <span className="text-red-600"> *</span>
+                        </p>
+                        <FormField
+                            type="select"
+                            name="crisis"
+                            id="crisis"
+                            required={true}
+                            options={[
+                                "Student movement",
+                                "Flood",
+                            ]}
+                            handleChange={handleChange}
+                            error={error.crisis}
                         />
                     </div>
                     <div>

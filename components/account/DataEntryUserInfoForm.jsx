@@ -2,9 +2,10 @@ import { z } from "zod";
 import FormField from "../auth/FormField";
 import { useState } from "react";
 import { dataEntryUserInfoFormAction, imageUpload } from "@/actions";
+import Image from "next/image";
 
 
-export default function DataEntryUserInfoForm() {
+export default function DataEntryUserInfoForm({ dataEntryUser }) {
     const [error, setError] = useState({
         name: "",
         contactNumber: "",
@@ -73,7 +74,7 @@ export default function DataEntryUserInfoForm() {
                         type="text"
                         name="name"
                         id="name"
-                        // placeholder="youremail@domain.com"
+                        defaultValue={dataEntryUser?.name}
                         required={true}
                         handleChange={handleChange}
                         error={error.name}
@@ -88,7 +89,7 @@ export default function DataEntryUserInfoForm() {
                         type="text"
                         name="contactNumber"
                         id="contactNumber"
-                        // placeholder="youremail@domain.com"
+                        defaultValue={dataEntryUser?.contact_number}
                         required={true}
                         handleChange={handleChange}
                         error={error.contactNumber}
@@ -103,7 +104,7 @@ export default function DataEntryUserInfoForm() {
                         type="text"
                         name="address"
                         id="address"
-                        // placeholder="youremail@domain.com"
+                        defaultValue={dataEntryUser?.address}
                         required={true}
                         handleChange={handleChange}
                         error={error.address}
@@ -119,6 +120,7 @@ export default function DataEntryUserInfoForm() {
                         name="bloodGroup"
                         id="bloodGroup"
                         required={true}
+                        defaultValue={dataEntryUser?.blood_group}
                         options={[
                             "A+",
                             "A-",
@@ -142,7 +144,7 @@ export default function DataEntryUserInfoForm() {
                         type="text"
                         name="occupation"
                         id="occupation"
-                        // placeholder="youremail@domain.com"
+                        defaultValue={dataEntryUser?.occupation}
                         required={true}
                         handleChange={handleChange}
                         error={error.occupation}
@@ -157,7 +159,7 @@ export default function DataEntryUserInfoForm() {
                         type="text"
                         name="institution"
                         id="institution"
-                        // placeholder="youremail@domain.com"
+                        defaultValue={dataEntryUser?.institution}
                         required={true}
                         handleChange={handleChange}
                         error={error.institution}
@@ -172,7 +174,7 @@ export default function DataEntryUserInfoForm() {
                         type="text"
                         name="institutionalAddress"
                         id="institutionalAddress"
-                        // placeholder="youremail@domain.com"
+                        defaultValue={dataEntryUser?.institution_address}
                         required={true}
                         handleChange={handleChange}
                         error={error.institutionalAddress}
@@ -183,24 +185,50 @@ export default function DataEntryUserInfoForm() {
                         NID Image
                         <span className="text-red-600"> *</span>
                     </p>
+                    
                     <FormField
                         type="file"
                         name="nid"
                         id="nid"
                         // placeholder="youremail@domain.com"
-                        required={true}
+                        required={dataEntryUser ? false : true}
                         handleChange={handleChange}
                         error={error.nid}
                     />
+                    {
+                        dataEntryUser?.nid_image && (
+                            <Image
+                                src={dataEntryUser?.nid_image}
+                                alt="NID Image"
+                                height={400}
+                                width={400}
+                                className={`mt-1 border-4 border-gray-300/50 rounded-md object-cover max-w-[400px]`}
+                            />
+                        )
+                    }
                 </div>
             </div>
+            <input 
+                type="text"
+                name="actionType" 
+                id="actionType"
+                value={dataEntryUser ? "Update": "Create"}
+                hidden 
+            />
+            <input 
+                type="text"
+                name="dataEntryUserId" 
+                id="dataEntryUserId"
+                value={dataEntryUser?.id}
+                hidden 
+            />
             <div className="mt-4 mb-6">
                 <button
                     type="submit"
                     disabled={isError}
                     className="block w-full py-2 text-center text-[#171923] bg-primary border border-primary rounded hover:bg-transparent hover:text-primary transition font-medium disabled:bg-gray-500 disabled:border-none disabled:hover:text-white"
                 >
-                    Create
+                    {dataEntryUser ? "Update": "Create"}
                 </button>
             </div>
         </form>

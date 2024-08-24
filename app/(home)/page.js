@@ -9,7 +9,7 @@ export default async function Home() {
     <div className="container">
         <Header />
         <h1 className="py-3 font-semibold text-xl">List of Injured Patients</h1>
-       <PatientList patients={data.patients} />
+       <PatientList patients={data} />
     </div>
   );
 }

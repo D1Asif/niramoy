@@ -6,7 +6,7 @@ export default function PatientListTable({ userPatients }) {
         <>
             <div className="flex justify-between items-center border-t border-black/10 dark:border-white/10 pt-6">
                 <h3 className="text-xl font-semibold text-primary">
-                    Created/Updated Patients
+                    Created Patient Entries
                 </h3>
                 <Link href="/create-new-patient">
                     <button
@@ -31,7 +31,7 @@ export default function PatientListTable({ userPatients }) {
                             <tbody className="">
                                 {
                                     userPatients?.map((patient, key) => (
-                                        <tr>
+                                        <tr key={patient?.id}>
                                             <td className="px-4 py-2">{key + 1}</td>
                                             <td className="px-4 py-2">{patient?.name}</td>
                                             <td className="px-4 py-2">{patient?.current_status}</td>

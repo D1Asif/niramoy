@@ -7,11 +7,9 @@ import toast from "react-hot-toast";
 
 export default function CreateNewPatientPage({ searchParams: { toast_message } }) {
   const router = useRouter();
-  const initialized = useRef(false);
 
   useEffect(() => {
-    if (toast_message === 'error' && !initialized.current) {
-      initialized.current = true;
+    if (toast_message === 'error') {
       toast.error("Error!");
       router.replace("/create-new-patient")
     }

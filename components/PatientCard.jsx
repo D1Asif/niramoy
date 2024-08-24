@@ -1,5 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
+import Tag from "./common/Tag";
+import { getTagColor } from "@/utils";
 
 
 export default function PatientCard({ patient }) {
@@ -7,7 +9,7 @@ export default function PatientCard({ patient }) {
         <figure className="p-4 border border-black/10 shadow-sm dark:border-white/10 rounded-xl">
             <Image
                 className="h-[300px] w-full object-cover rounded-md mx-auto"
-                src={patient.injury_photos === null ? "/patient1.jpg" : patient.injury_photos[0]}
+                src={(patient.injury_photos === null || patient.injury_photos.length === 0) ? "/no-image.jpg" : patient.injury_photos[0]}
                 alt={patient?.name}
                 height={300}
                 width={300}
@@ -18,9 +20,22 @@ export default function PatientCard({ patient }) {
                     {patient?.injury_details}
                 </p>
                 <div className="flex flex-wrap gap-2">
-                    <span className="px-3 py-1 text-sm font-medium text-blue-700 bg-blue-100 rounded-full">{patient?.current_status}</span>
-                    <span className="px-3 py-1 text-sm font-medium text-pink-700 bg-pink-100 rounded-full">{patient.injury_type} injury</span>
-                    <span className="px-3 py-1 text-sm font-medium text-green-700 bg-green-100 rounded-full">{patient.required_fund ? "Fund required" : ""} </span>
+                    <Tag
+                        tagText={patient?.current_status}
+                        tagStyle={getTagColor(patient?.current_status)}
+                    />
+                    <Tag
+                        tagText={patient?.injury_type}
+                        tagStyle={getTagColor(patient?.injury_type)}
+                    />
+                    <Tag
+                        tagText={(patient?.required_fund && patient?.required_fund !== "Not Required") ? "Fund Required" : null}
+                        tagStyle={getTagColor(patient?.required_fund)}
+                    />
+                    <Tag
+                        tagText={patient?.crisis_type}
+                        tagStyle={getTagColor(patient?.crisis_type)}
+                    />
                 </div>
                 <div className="flex items-center space-x-1 mb-5">
                 </div>

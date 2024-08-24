@@ -1,23 +1,42 @@
 "use client"
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DataEntryUserInfoForm from "./DataEntryUserInfoForm";
-import { FaCheck, FaEdit } from "react-icons/fa";
+import { FaEdit } from "react-icons/fa";
+import { useRouter, useSearchParams } from "next/navigation";
+import toast from "react-hot-toast";
 
-export default function DataEntryUserProfileInfo() {
+export default function DataEntryUserProfileInfo({ dataEntryUser }) {
     const [isEditing, setIsEditing] = useState(false);
 
-    const isDataEntryUserRegistered = true;
+    const searchParams = useSearchParams();
+    const toastMessage = searchParams.get('toast_message');
 
-    if (!isDataEntryUserRegistered && !isEditing) {
+    const router = useRouter();
+
+    useEffect(() => {
+        if (toastMessage === "success") {
+            toast.success("Success!");
+            setIsEditing(false);
+            router.replace("/account");
+        }
+        if (toastMessage === "error") {
+            toast.error("Error!");
+            router.replace("/account");
+        }
+    }, [toastMessage, router]);
+
+    
+
+    if (!dataEntryUser && !isEditing) {
         return (
             <>
                 <div className="flex justify-between items-center border-b border-black/10 dark:border-white/10 pb-4">
                     <h3 className="text-xl font-semibold text-primary">Data Entry User Profile</h3>
                 </div>
                 <div className="py-6">
-                    You have not registered as a data entry user yet. &nbsp;
+                    You need to register as a data entry user to create patient entry. &nbsp;
                     <span className="underline cursor-pointer hover:text-primary" onClick={() => setIsEditing(true)}>Register now</span>
                 </div>
             </>
@@ -40,44 +59,62 @@ export default function DataEntryUserProfileInfo() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 py-4">
                         <div>
                             <p className="text-gray-400">Full Name</p>
-                            <h4 className="text-lg font-medium">Dewan Asifur Rahman</h4>
+                            <h4 className="text-lg font-medium">
+                                {dataEntryUser?.name}
+                            </h4>
                         </div>
-                        <div>
+                        {/* <div>
                             <p className="text-gray-400">Email</p>
-                            <h4 className="text-lg font-medium">dasifrahman@gmail.com</h4>
-                        </div>
+                            <h4 className="text-lg font-medium">
+                                {dataEntryUser?.email}
+                            </h4>
+                        </div> */}
                         <div>
                             <p className="text-gray-400">ID</p>
-                            <h4 className="text-lg font-medium">WEB3-0551</h4>
+                            <h4 className="text-lg font-medium">
+                                {dataEntryUser?.id}
+                            </h4>
                         </div>
                         <div>
                             <p className="text-gray-400">Contact Number</p>
-                            <h4 className="text-lg font-medium">01311933447</h4>
+                            <h4 className="text-lg font-medium">
+                                {dataEntryUser?.contact_number}
+                            </h4>
                         </div>
                         <div>
                             <p className="text-gray-400">Address</p>
-                            <h4 className="text-lg font-medium">Mirpur, Dhaka</h4>
+                            <h4 className="text-lg font-medium">
+                                {dataEntryUser?.address}
+                            </h4>
                         </div>
                         <div>
                             <p className="text-gray-400">Occupation</p>
-                            <h4 className="text-lg font-medium">Student</h4>
+                            <h4 className="text-lg font-medium">
+                                {dataEntryUser?.occupation}
+                            </h4>
                         </div>
                         <div>
                             <p className="text-gray-400">Institution</p>
-                            <h4 className="text-lg font-medium">Dhaka Medical College</h4>
+                            <h4 className="text-lg font-medium">
+                                {dataEntryUser?.institution}
+                            </h4>
                         </div>
                         <div>
                             <p className="text-gray-400">Institution Address in Details</p>
-                            <h4 className="text-lg font-medium">Dhaka</h4>
+                            <h4 className="text-lg font-medium">
+                                {dataEntryUser?.institution_address}
+                            </h4>
                         </div>
                         <div>
                             <p className="text-gray-400">Blood group</p>
-                            <h4 className="text-lg font-medium">O+</h4>
+                            <h4 className="text-lg font-medium">
+                                {dataEntryUser.blood_group}
+                            </h4>
                         </div>
                         <div>
-                            <p className="text-gray-400">NID</p>
+                            <p className="text-gray-400">NID/Student ID</p>
                             <Image
-                                src="/patient1.jpg"
+                                src={dataEntryUser?.nid_image}
                                 alt="NID Image"
                                 height={400}
                                 width={400}
@@ -86,7 +123,7 @@ export default function DataEntryUserProfileInfo() {
                         </div>
                     </div>
                 ) : (
-                    <DataEntryUserInfoForm setIsEditing={setIsEditing} />
+                    <DataEntryUserInfoForm setIsEditing={setIsEditing} dataEntryUser={dataEntryUser} />
                 )
             }
 
