@@ -82,7 +82,7 @@ export const dataEntryUserInfoFormAction = async (formData) => {
             }
         }
 
-        const fetchUrl = actionType === "Update" ? `${process.env.API_BASE_URL}/data-entry-users/${dataEntryUserId}` : `${process.env.API_BASE_URL}/data-entry-users`
+        const fetchUrl = actionType === "Update" ? `${process.env.API_BASE_URL}/data-entry-users/${dataEntryUserId}` : `${process.env.API_BASE_URL}/data-entry-users/`
 
         const res = await fetch(fetchUrl, {
             method: actionType === "Update" ? "PUT" : "POST",
@@ -112,7 +112,6 @@ export const dataEntryUserInfoFormAction = async (formData) => {
         });
 
         const resData = await res.json();
-
 
         if (res.ok) {
             console.log("Success");
@@ -305,6 +304,6 @@ export const deletePatientAction = async (patientId) => {
     } catch (err) {
         console.log(err);
         return "error"
-    } 
+    }
 
 };

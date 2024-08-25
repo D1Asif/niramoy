@@ -6,7 +6,10 @@ import { z } from "zod";
 import { createPatientAction } from "@/actions";
 import MultiSelector from "../common/MultiSelector";
 
-export default function CreateNewPatientForm() {
+export default function CreateNewPatientForm({patient}) {
+    console.log(patient);
+    console.log("hello");
+
     const [error, setError] = useState({
         name: "",
         age: "",
@@ -102,6 +105,7 @@ export default function CreateNewPatientForm() {
                             type="text"
                             name="name"
                             id="name"
+                            defaultValue={patient?.name}
                             required={true}
                             handleChange={handleChange}
                             error={error.name}
@@ -116,6 +120,7 @@ export default function CreateNewPatientForm() {
                             type="text"
                             name="age"
                             id="age"
+                            defaultValue={patient?.age}
                             required={true}
                             handleChange={handleChange}
                             error={error.age}
@@ -129,6 +134,7 @@ export default function CreateNewPatientForm() {
                             type="text"
                             name="address"
                             id="address"
+                            defaultValue={patient?.age}
                             handleChange={handleChange}
                             error={error.address}
                         />
@@ -142,6 +148,7 @@ export default function CreateNewPatientForm() {
                             type="select"
                             name="gender"
                             id="gender"
+                            defaultValue={patient?.gender}
                             required={true}
                             options={[
                                 "Male",
@@ -160,6 +167,7 @@ export default function CreateNewPatientForm() {
                             type="text"
                             name="contactNumber"
                             id="contactNumber"
+                            defaultValue={patient?.contactNumber}
                             handleChange={handleChange}
                             error={error.contactNumber}
                         />
@@ -172,6 +180,7 @@ export default function CreateNewPatientForm() {
                             type="text"
                             name="additionalInfo"
                             id="additionalInfo"
+                            defaultValue={patient?.name}
                             handleChange={handleChange}
                             error={error.additionalInfo}
                         />
