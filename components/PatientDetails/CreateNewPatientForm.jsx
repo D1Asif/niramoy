@@ -238,7 +238,7 @@ export default function CreateNewPatientForm() {
                             id="crisis"
                             required={true}
                             options={[
-                                "Student movement",
+                                "Movement",
                                 "Flood",
                             ]}
                             handleChange={handleChange}

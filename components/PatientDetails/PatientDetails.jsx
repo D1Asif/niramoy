@@ -1,9 +1,15 @@
 import ImageGallery from "../common/ImageGallery";
-import { convertDate } from "@/utils";
+import { convertDate, convertDateTime } from "@/utils";
 import InfoSection from "./InfoSection";
+import ActionButtons from "./ActionButtons";
+import { auth } from "@/auth";
 
-export default function PatientDetails({ patient }) {
+export default async function PatientDetails({ patient }) {
     console.log(patient);
+
+    const session = await auth();
+
+    const showActionButton = patient?.created_by === session?.user?.username;
 
     const personalInfo = [
         {
@@ -67,16 +73,31 @@ export default function PatientDetails({ patient }) {
             value: patient?.required_fund
         },
         {
+            title: "Required fund amount (in BDT)",
+            value: patient?.required_fund_amount ?? "0"
+        },
+        {
             title: "Raised fund amount (in BDT)",
             value: patient?.raised_fund_amount ?? "0"
         },
     ]
     const dataEntryInfo = [
-        
+        {
+            title: "Entry created by",
+            value: patient?.created_by
+        },
+        {
+            title: "Last updated at",
+            value:convertDateTime(patient?.last_update)
+        },
     ];
+
     return (
         <section>
             <ImageGallery images={patient?.injury_photos} imageOf="Injury" />
+
+            {showActionButton && <ActionButtons patient={patient} />}
+
             <div className=" text-slate-600 dark:text-slate-300 rounded-lg p-6 max-w-6xl mx-auto my-8 border border-black/10 dark:border-white/10">
                 <InfoSection sectionHeadline="Personal Info" infoArray={personalInfo} />
 
@@ -106,7 +127,7 @@ export default function PatientDetails({ patient }) {
                     }
                 </div>
 
-
+                <InfoSection sectionHeadline="Data Entry Info" infoArray={dataEntryInfo} />
             </div>
 
         </section>

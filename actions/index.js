@@ -83,7 +83,7 @@ export const dataEntryUserInfoFormAction = async (formData) => {
             }
         }
 
-        const fetchUrl =  actionType === "Update" ? `${process.env.API_BASE_URL}/data-entry-users/${dataEntryUserId}` : `${process.env.API_BASE_URL}/data-entry-users`
+        const fetchUrl = actionType === "Update" ? `${process.env.API_BASE_URL}/data-entry-users/${dataEntryUserId}` : `${process.env.API_BASE_URL}/data-entry-users`
 
         const res = await fetch(fetchUrl, {
             method: actionType === "Update" ? "PUT" : "POST",
@@ -178,6 +178,36 @@ export const createPatientAction = async (formData) => {
                 }
             }
 
+            const body = {
+                admission_datetime: dateAndTimeOfAdmission,
+                affected_body_parts: affectedBodyParts?.split(","),
+                age: parseInt(age),
+                blood_group: bloodGroup,
+                contact_number: contactNumber,
+                created_by: session?.user?.username,
+                crysis_type: crisis,
+                current_address: hospital,
+                current_status: injuryCurrentStatus,
+                data_entry_personnel: session?.user?.username,
+                description: additionalInfo,
+                documents: photoUrlArrayOfDocuments,
+                gender,
+                home_address: address,
+                injury_datetime: dateAndTimeOfInjury,
+                injury_details: injuryDetails,
+                injury_photos: photoUrlArrayOfInjury,
+                injury_type: injuryType,
+                last_update: new Date(),
+                medical_details: injuryDetails,
+                name,
+                raised_fund_amount: parseInt(raisedFundAmount),
+                required_fund: requiredFundType,
+                required_fund_amount: parseInt(requiredFundAmount),
+                updated_by: null
+            }
+
+            console.log(body);
+
             const res = await fetch(`${process.env.API_BASE_URL}/patients/`, {
                 method: 'POST',
                 headers: {
@@ -185,33 +215,7 @@ export const createPatientAction = async (formData) => {
                     'Authorization': `Bearer ${session?.user?.authToken}`
                 },
                 body: JSON.stringify(
-                    {
-                        admission_datetime: dateAndTimeOfAdmission,
-                        affected_body_parts: affectedBodyParts?.split(","),
-                        age: parseInt(age),
-                        blood_group: bloodGroup,
-                        contact_number: contactNumber,
-                        created_by: session?.user?.username,
-                        crisis_type: crisis,
-                        current_address: hospital,
-                        current_status: injuryCurrentStatus,
-                        data_entry_personnel: session?.user?.username,
-                        description: additionalInfo,
-                        documents: photoUrlArrayOfDocuments,
-                        gender,
-                        home_address: address,
-                        injury_datetime: dateAndTimeOfInjury,
-                        injury_details: injuryDetails,
-                        injury_photos: photoUrlArrayOfInjury,
-                        injury_type: injuryType,
-                        last_update: new Date(),
-                        medical_details: injuryDetails,
-                        name,
-                        raised_fund_amount: parseInt(raisedFundAmount),
-                        required_fund: requiredFundType,
-                        required_fund_amount: parseInt(requiredFundAmount),
-                        updated_by: null
-                    }
+                    body
                 )
             });
 

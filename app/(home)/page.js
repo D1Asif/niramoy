@@ -8,7 +8,7 @@ export default async function Home() {
   return (
     <div className="container">
         <Header />
-        <h1 className="py-3 font-semibold text-xl">List of Injured Patients</h1>
+        <h3 className="text-xl font-semibold py-3">List of Injured Patients</h3>
        <PatientList patients={data} />
     </div>
   );
