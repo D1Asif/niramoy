@@ -1,7 +1,7 @@
 import PatientCard from "./PatientCard";
 
 export default function PatientList({ patients }) {
-    console.log(patients);
+    
     return (
         <>
             {

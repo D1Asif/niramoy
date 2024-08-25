@@ -33,7 +33,6 @@ export const imageUpload = async (image) => {
     });
 
     const responseData = await res.json();
-    console.log(responseData);
 
     if (res.ok) {
         return responseData.data;
@@ -113,7 +112,7 @@ export const dataEntryUserInfoFormAction = async (formData) => {
         });
 
         const resData = await res.json();
-        console.log(resData);
+
 
         if (res.ok) {
             console.log("Success");
@@ -206,8 +205,6 @@ export const createPatientAction = async (formData) => {
                 updated_by: null
             }
 
-            console.log(body);
-
             const res = await fetch(`${process.env.API_BASE_URL}/patients/`, {
                 method: 'POST',
                 headers: {
@@ -220,7 +217,6 @@ export const createPatientAction = async (formData) => {
             });
 
             const resData = await res.json();
-            console.log(resData);
 
             if (res.ok) {
                 revalidatePath("/")
@@ -241,3 +237,74 @@ export const createPatientAction = async (formData) => {
         redirect(`/patients/${newPatientData?.id}`);
     }
 }
+
+// export const deletePatientAction = async (patientId) => {
+//     console.log(patientId);
+//     const session = await auth();
+//     console.log(session?.user);
+//     const fetchUrl = `${process.env.API_BASE_URL}/patients/${patientId}`
+
+//     let success = true;
+
+//     try {
+//         const res = await fetch(fetchUrl, {
+//             method: "DELETE",
+//             headers: {
+//                 'Content-Type': 'application/json',
+//                 'Authorization': `Bearer ${session?.user?.authToken}`
+//             }
+//         });
+
+//         const data = await res.json();
+//         console.log(data);
+
+//         console.log(success, "yoooo1");
+
+//         if (res.dtat) {
+//             throw new Error("Failed to delete")
+//         }
+//     } catch (err) {
+//         console.log(err);
+//         success = false;
+//         console.log(success, "yoooo2");
+//     }
+
+//     if (success) {
+//         revalidatePath("/");
+//         redirect("/account");
+//     }
+
+//     console.log(success, "sucessssssssssss");
+
+//     return success;
+// }
+
+export const deletePatientAction = async (patientId) => {
+    console.log(patientId);
+    const session = await auth();
+    console.log(session?.user);
+    const fetchUrl = `${process.env.API_BASE_URL}/patients/${patientId}`;
+
+    let success = "success";
+
+    try {
+        const res = await fetch(fetchUrl, {
+            method: "DELETE",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${session?.user?.authToken}`
+            }
+        });
+
+        console.log(res.status, "response status");
+
+        if (res.status === 204) {
+            revalidatePath("/");
+            return "success";
+        }
+    } catch (err) {
+        console.log(err);
+        return "error"
+    } 
+
+};

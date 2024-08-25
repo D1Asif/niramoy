@@ -1,4 +1,8 @@
+"use client"
+
+import { deletePatientAction } from "@/actions";
 import Link from "next/link";
+import toast from "react-hot-toast";
 
 
 export default function ActionButtons({patient}) {
@@ -10,9 +14,20 @@ export default function ActionButtons({patient}) {
             >
                 Edit Entry
             </Link>
-            <p className="border rounded py-2 px-3 text-red-500 border-red-500 cursor-pointer">
+            <button 
+                className="border rounded py-2 px-3 text-red-500 border-red-500"
+                onClick={async () => {
+                    const result = await deletePatientAction(patient?.id);
+                    console.log({result});
+                    if (result === "success") {
+                        toast.success("Success");
+                    } else {
+                        toast.error("Error");
+                    }
+                }}
+            >
                 Delete Entry
-            </p>
+            </button>
         </div>
     )
 }

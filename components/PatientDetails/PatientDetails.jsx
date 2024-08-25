@@ -2,10 +2,14 @@ import ImageGallery from "../common/ImageGallery";
 import { convertDate, convertDateTime } from "@/utils";
 import InfoSection from "./InfoSection";
 import ActionButtons from "./ActionButtons";
+import { notFound } from 'next/navigation'
 import { auth } from "@/auth";
 
 export default async function PatientDetails({ patient }) {
-    console.log(patient);
+
+    if (!patient) {
+        notFound();
+    }
 
     const session = await auth();
 
