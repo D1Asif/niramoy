@@ -153,6 +153,7 @@ export const createPatientAction = async (formData) => {
     const hospital = formData.get("hospital");
     const affectedBodyParts = formData.get("affectedBodyParts");
     const requiredFundType = formData.get("requiredFundType");
+    const requiredFundAmount = formData.get("requiredFundAmount");
     const raisedFundAmount = formData.get("raisedFundAmount");
 
     const createPatientInDB = async () => {
@@ -177,7 +178,7 @@ export const createPatientAction = async (formData) => {
                 }
             }
 
-            const res = await fetch(`${process.env.API_BASE_URL}/patients`, {
+            const res = await fetch(`${process.env.API_BASE_URL}/patients/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -186,7 +187,7 @@ export const createPatientAction = async (formData) => {
                 body: JSON.stringify(
                     {
                         admission_datetime: dateAndTimeOfAdmission,
-                        affected_body_parts: affectedBodyParts.split(","),
+                        affected_body_parts: affectedBodyParts?.split(","),
                         age: parseInt(age),
                         blood_group: bloodGroup,
                         contact_number: contactNumber,
@@ -203,10 +204,12 @@ export const createPatientAction = async (formData) => {
                         injury_details: injuryDetails,
                         injury_photos: photoUrlArrayOfInjury,
                         injury_type: injuryType,
+                        last_update: new Date(),
                         medical_details: injuryDetails,
                         name,
                         raised_fund_amount: parseInt(raisedFundAmount),
                         required_fund: requiredFundType,
+                        required_fund_amount: parseInt(requiredFundAmount),
                         updated_by: null
                     }
                 )

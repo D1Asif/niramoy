@@ -1,6 +1,5 @@
 import ImageGallery from "../common/ImageGallery";
 import { convertDate } from "@/utils";
-import InfoItem from "./InfoItem";
 import InfoSection from "./InfoSection";
 
 export default function PatientDetails({ patient }) {
@@ -55,7 +54,7 @@ export default function PatientDetails({ patient }) {
         },
         {
             title: "Affected Body Parts",
-            value: patient?.affected_body_parts.join(", ")
+            value: patient?.affected_body_parts?.join(", ")
         },
         {
             title: "Blood Group",

@@ -26,7 +26,7 @@ export default function CreateNewPatientForm() {
         affectedBodyParts: "",
         documents: "",
         requiredFundType: "",
-        // requiredFundAmount: "",
+        requiredFundAmount: "",
         raisedFundAmount: ""
     });
 
@@ -53,7 +53,7 @@ export default function CreateNewPatientForm() {
         affectedBodyParts: z.string(),
         // documents: z.array(z.string()),
         requiredFundType: z.string(),
-        // requiredFundAmount: z.number().positive(), // Uncomment if required
+        requiredFundAmount: z.string().regex(/^\d+$/, 'Amount must be a positive integer'), 
         raisedFundAmount: z.string().regex(/^\d+$/, 'Amount must be a positive integer'),
     })
 
@@ -78,8 +78,7 @@ export default function CreateNewPatientForm() {
         } catch (err) {
             console.log(err);
             setError({
-                ...error,
-                username: err.message
+                ...error
             })
         }
     }
@@ -363,7 +362,7 @@ export default function CreateNewPatientForm() {
                     </div>
                     <div>
                         <p className="text-gray-400">
-                            Fund requirement
+                            Fund requirement type
                             <span className="text-red-600"> *</span>
                         </p>
                         <FormField
@@ -380,10 +379,9 @@ export default function CreateNewPatientForm() {
                             error={error.requiredFundType}
                         />
                     </div>
-                    {/* <div>
+                    <div>
                         <p className="text-gray-400">
                             Required fund amount
-                            <span className="text-red-600"> *</span>
                         </p>
                         <FormField
                             type="text"
@@ -392,7 +390,7 @@ export default function CreateNewPatientForm() {
                             handleChange={handleChange}
                             error={error.requiredFundAmount}
                         />
-                    </div> */}
+                    </div>
                     <div>
                         <p className="text-gray-400">
                             Raised fund amount
