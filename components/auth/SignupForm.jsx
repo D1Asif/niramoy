@@ -94,14 +94,6 @@ export default function SignupForm() {
             return;
         }
 
-        console.log(
-            {
-                username,
-                email,
-                password
-            }
-        );
-
         try {
             const res = await userSignUp({
                 username,

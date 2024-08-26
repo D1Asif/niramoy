@@ -281,9 +281,7 @@ export const createPatientAction = async (formData) => {
 
 
 export const deletePatientAction = async (patientId) => {
-    console.log(patientId);
     const session = await auth();
-    console.log(session?.user);
     const fetchUrl = `${process.env.API_BASE_URL}/patients/${patientId}`;
 
     let success = "success";
@@ -296,8 +294,6 @@ export const deletePatientAction = async (patientId) => {
                 'Authorization': `Bearer ${session?.user?.authToken}`
             }
         });
-
-        console.log(res.status, "response status");
 
         if (res.status === 204) {
             revalidatePath("/");

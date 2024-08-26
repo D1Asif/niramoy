@@ -11,7 +11,7 @@ const sora = Sora({
 
 export const metadata = {
   title: "Niramoy",
-  description: "Live database of injured patients in student movement",
+  description: "Live database of injured patients in student movement & flood",
 };
 
 export default function RootLayout({ children }) {

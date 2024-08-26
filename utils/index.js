@@ -51,17 +51,17 @@ export function convertDateTime(dateString) {
 export function getTagColor(value) {
     const lowerValue = value?.toLowerCase(); // Convert to lowercase for case-insensitive comparison
 
-    if (["healed", "minor", "urgent", "required"].includes(lowerValue)) {
-        return "text-green-700 bg-green-100";
+    if (["healed", "minor", "urgent", "fund required"].includes(lowerValue)) {
+        return "green";
     } else if (["injured", "critical",].includes(lowerValue)) {
-        return "text-red-700 bg-red-100";
+        return "red";
     } else if (["major"].includes(lowerValue)) {
-        return "text-orange-700 bg-yellow-100";
+        return "yellow";
     } else if (["flood"].includes(lowerValue)) {
-        return "text-blue-700 bg-blue-100";
-    } else if (["student movement"].includes(lowerValue)) {
-        return "text-purple-700 bg-purple-100";
+        return "blue";
+    } else if (["movement"].includes(lowerValue)) {
+        return "purple";
     } else {
-        return "text-gray-700 bg-gray-100"
+        return "none";
     }
 }

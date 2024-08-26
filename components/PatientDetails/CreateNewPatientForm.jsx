@@ -8,7 +8,6 @@ import MultiSelector from "../common/MultiSelector";
 import ImageUpdateGallery from "../common/ImageUpdateGallery";
 
 export default function CreateNewPatientForm({ patient }) {
-    console.log(patient);
 
     const [injuryPhotos, setInjuryPhotos] = useState(patient?.injury_photos);
     const [documentPhotos, setDocumentPhotos] = useState(patient?.documents);

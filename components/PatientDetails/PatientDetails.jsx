@@ -40,6 +40,10 @@ export default async function PatientDetails({ patient }) {
             title: "Patient's Contact Number",
             value: patient?.contact_number
         },
+        {
+            title: "Patient of (Movement/Flood)",
+            value: patient?.crysis_type
+        },
     ]
     const medicalInfo = [
         {

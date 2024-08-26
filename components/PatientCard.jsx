@@ -22,19 +22,15 @@ export default function PatientCard({ patient }) {
                 <div className="flex flex-wrap gap-2">
                     <Tag
                         tagText={patient?.current_status}
-                        tagStyle={getTagColor(patient?.current_status)}
                     />
                     <Tag
                         tagText={patient?.injury_type}
-                        tagStyle={getTagColor(patient?.injury_type)}
                     />
                     <Tag
                         tagText={(patient?.required_fund && patient?.required_fund !== "Not Required") ? "Fund Required" : null}
-                        tagStyle={getTagColor(patient?.required_fund)}
                     />
                     <Tag
-                        tagText={patient?.crisis_type}
-                        tagStyle={getTagColor(patient?.crisis_type)}
+                        tagText={patient?.crysis_type}
                     />
                 </div>
                 <div className="flex items-center space-x-1 mb-5">
