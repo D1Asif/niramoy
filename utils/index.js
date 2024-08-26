@@ -22,26 +22,30 @@ export function convertDate(dateString) {
 }
 
 export function convertDateTime(dateString) {
-    const date = new Date(dateString);
+    // Parse the date string and ensure it is in local time
+    const date = new Date(dateString + 'Z'); // Add 'Z' to the end of the string to treat it as UTC
 
     const months = [
         "January", "February", "March", "April", "May", "June", "July", "August",
         "September", "October", "November", "December"
     ];
 
+    // Get local hours and minutes
     const hours = date.getHours();
     const minutes = date.getMinutes();
+
+    // Determine if it's AM or PM
     const isPM = hours >= 12;
-    const formattedHours = hours % 12 || 12;
-    const formattedMinutes = minutes === 0 ? "" : `:${minutes}`;
+    const formattedHours = hours % 12 || 12; // Convert 0 hours to 12 for 12 AM/PM
+    const formattedMinutes = minutes === 0 ? "" : `:${minutes.toString().padStart(2, '0')}`;
     const period = isPM ? "PM" : "AM";
 
+    // Get the local day, month, and year
     const day = date.getDate();
     const month = months[date.getMonth()];
     const year = date.getFullYear();
 
     return `${formattedHours}${formattedMinutes} ${period}, ${day} ${month} ${year}`;
-    
 }
 
 export function getTagColor(value) {
@@ -49,14 +53,14 @@ export function getTagColor(value) {
 
     if (["healed", "minor", "urgent", "required"].includes(lowerValue)) {
         return "text-green-700 bg-green-100";
-    } else if (["injured", "critical", ].includes(lowerValue)) {
+    } else if (["injured", "critical",].includes(lowerValue)) {
         return "text-red-700 bg-red-100";
     } else if (["major"].includes(lowerValue)) {
         return "text-orange-700 bg-yellow-100";
     } else if (["flood"].includes(lowerValue)) {
         return "text-blue-700 bg-blue-100";
     } else if (["student movement"].includes(lowerValue)) {
-        return "text-purple-700 bg-purple-100"; 
+        return "text-purple-700 bg-purple-100";
     } else {
         return "text-gray-700 bg-gray-100"
     }

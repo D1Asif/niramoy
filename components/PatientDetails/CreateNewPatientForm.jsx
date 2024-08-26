@@ -5,10 +5,13 @@ import FormField from "../auth/FormField";
 import { z } from "zod";
 import { createPatientAction } from "@/actions";
 import MultiSelector from "../common/MultiSelector";
+import ImageUpdateGallery from "../common/ImageUpdateGallery";
 
-export default function CreateNewPatientForm({patient}) {
+export default function CreateNewPatientForm({ patient }) {
     console.log(patient);
-    console.log("hello");
+
+    const [injuryPhotos, setInjuryPhotos] = useState(patient?.injury_photos);
+    const [documentPhotos, setDocumentPhotos] = useState(patient?.documents);
 
     const [error, setError] = useState({
         name: "",
@@ -56,7 +59,7 @@ export default function CreateNewPatientForm({patient}) {
         affectedBodyParts: z.string(),
         // documents: z.array(z.string()),
         requiredFundType: z.string(),
-        requiredFundAmount: z.string().regex(/^\d+$/, 'Amount must be a positive integer'), 
+        requiredFundAmount: z.string().regex(/^\d+$/, 'Amount must be a positive integer'),
         raisedFundAmount: z.string().regex(/^\d+$/, 'Amount must be a positive integer'),
     })
 
@@ -167,7 +170,7 @@ export default function CreateNewPatientForm({patient}) {
                             type="text"
                             name="contactNumber"
                             id="contactNumber"
-                            defaultValue={patient?.contactNumber}
+                            defaultValue={patient?.contact_number}
                             handleChange={handleChange}
                             error={error.contactNumber}
                         />
@@ -180,7 +183,7 @@ export default function CreateNewPatientForm({patient}) {
                             type="text"
                             name="additionalInfo"
                             id="additionalInfo"
-                            defaultValue={patient?.name}
+                            defaultValue={patient?.description}
                             handleChange={handleChange}
                             error={error.additionalInfo}
                         />
@@ -194,6 +197,7 @@ export default function CreateNewPatientForm({patient}) {
                             type="select"
                             name="injuryCurrentStatus"
                             id="injuryCurrentStatus"
+                            defaultValue={patient?.current_status}
                             required={true}
                             options={[
                                 "Injured",
@@ -218,6 +222,7 @@ export default function CreateNewPatientForm({patient}) {
                                 "Minor",
                                 "Critical"
                             ]}
+                            defaultValue={patient?.injury_type}
                             handleChange={handleChange}
                             error={error.injuryType}
                         />
@@ -232,6 +237,7 @@ export default function CreateNewPatientForm({patient}) {
                             name="injuryDetails"
                             id="injuryDetails"
                             required={true}
+                            defaultValue={patient?.medical_details}
                             handleChange={handleChange}
                             error={error.injuryDetails}
                         />
@@ -250,6 +256,7 @@ export default function CreateNewPatientForm({patient}) {
                                 "Movement",
                                 "Flood",
                             ]}
+                            defaultValue={patient?.crysis_type}
                             handleChange={handleChange}
                             error={error.crisis}
                         />
@@ -274,6 +281,7 @@ export default function CreateNewPatientForm({patient}) {
                                 "O+",
                                 "O-"
                             ]}
+                            defaultValue={patient?.blood_group}
                             handleChange={handleChange}
                             error={error.bloodGroup}
                         />
@@ -287,6 +295,7 @@ export default function CreateNewPatientForm({patient}) {
                             type="text"
                             name="dateAndTimeOfInjury"
                             id="dateAndTimeOfInjury"
+                            defaultValue={patient?.injury_datetime?.split("T")[0]}
                             required={true}
                             handleChange={handleChange}
                             error={error.dateAndTimeOfInjury}
@@ -301,6 +310,7 @@ export default function CreateNewPatientForm({patient}) {
                             type="text"
                             name="dateAndTimeOfAdmission"
                             id="dateAndTimeOfAdmission"
+                            defaultValue={patient?.admission_datetime?.split("T")[0]}
                             required={true}
                             handleChange={handleChange}
                             error={error.dateAndTimeOfAdmission}
@@ -318,6 +328,21 @@ export default function CreateNewPatientForm({patient}) {
                             handleChange={handleChange}
                             error={error.photosOfInjury}
                         />
+                        {!!injuryPhotos?.length && <ImageUpdateGallery images={injuryPhotos} setImagesArray={setInjuryPhotos} />}
+                        <input
+                            type="text"
+                            name="previousInjuryPhotos"
+                            id="previousInjuryPhotos"
+                            value={!!injuryPhotos?.length ? injuryPhotos?.join(" "): null}
+                            hidden
+                        />
+                        <input
+                            type="text"
+                            name="patientId"
+                            id="patientId"
+                            value={patient?.id}
+                            hidden
+                        />
                     </div>
                     <div>
                         <p className="text-gray-400">
@@ -329,6 +354,7 @@ export default function CreateNewPatientForm({patient}) {
                             name="hospital"
                             id="hospital"
                             required={true}
+                            defaultValue={patient?.current_address}
                             handleChange={handleChange}
                             error={error.hospital}
                         />
@@ -343,10 +369,11 @@ export default function CreateNewPatientForm({patient}) {
                             id="affectedBodyParts"
                             name="affectedBodyParts"
                             hidden
+                            defaultValue={patient?.affected_body_parts}
                             value={tags.join(",")}
                             readOnly
                         />
-                        <MultiSelector setterFunction={setTags} />
+                        <MultiSelector setterFunction={setTags} initialValue={patient?.affected_body_parts} />
                         {/* <FormField
                             type="text"
                             name="affectedBodyParts"
@@ -368,6 +395,14 @@ export default function CreateNewPatientForm({patient}) {
                             handleChange={handleChange}
                             error={error.documents}
                         />
+                        {!!documentPhotos?.length && <ImageUpdateGallery images={documentPhotos} setImagesArray={setDocumentPhotos} />}
+                        <input
+                            type="text"
+                            name="previousDocumentPhotos"
+                            id="previousDocumentPhotos"
+                            value={!!documentPhotos?.length ? documentPhotos?.join(" "): null}
+                            hidden
+                        />
                     </div>
                     <div>
                         <p className="text-gray-400">
@@ -379,6 +414,7 @@ export default function CreateNewPatientForm({patient}) {
                             name="requiredFundType"
                             id="requiredFundType"
                             required={true}
+                            defaultValue={patient?.required_fund}
                             options={[
                                 "Urgent",
                                 "Required",
@@ -396,6 +432,7 @@ export default function CreateNewPatientForm({patient}) {
                             type="text"
                             name="requiredFundAmount"
                             id="requiredFundAmount"
+                            defaultValue={patient?.required_fund_amount}
                             handleChange={handleChange}
                             error={error.requiredFundAmount}
                         />
@@ -408,10 +445,18 @@ export default function CreateNewPatientForm({patient}) {
                             type="text"
                             name="raisedFundAmount"
                             id="raisedFundAmount"
+                            defaultValue={patient?.raised_fund_amount}
                             handleChange={handleChange}
                             error={error.raisedFundAmount}
                         />
                     </div>
+                    <input 
+                        type="text"
+                        name="actionType"
+                        id="actionType"
+                        value={!!patient ? "Update": null} 
+                        hidden
+                    />
                 </div>
                 <div className="mt-4">
                     <button
@@ -419,7 +464,7 @@ export default function CreateNewPatientForm({patient}) {
                         disabled={isError}
                         className="block w-full py-2 text-center text-[#171923] bg-primary border border-primary rounded hover:bg-transparent hover:text-primary transition font-medium disabled:bg-gray-500 disabled:border-none disabled:hover:text-white"
                     >
-                        Create
+                        {!!patient ? "Update": "Create"}
                     </button>
                 </div>
             </form>

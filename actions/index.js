@@ -153,12 +153,16 @@ export const createPatientAction = async (formData) => {
     const requiredFundType = formData.get("requiredFundType");
     const requiredFundAmount = formData.get("requiredFundAmount");
     const raisedFundAmount = formData.get("raisedFundAmount");
+    const previousInjuryPhotos = formData.get("previousInjuryPhotos");
+    const previousDocumentPhotos = formData.get("previousDocumentPhotos");
+    const actionType = formData.get("actionType");
+    const patientId = formData.get("patientId");
 
     const createPatientInDB = async () => {
         try {
             const session = await auth();
 
-            const photoUrlArrayOfInjury = [];
+            let photoUrlArrayOfInjury = [];
 
             for (const file of photosOfInjury) {
                 if (file.size) {
@@ -167,13 +171,49 @@ export const createPatientAction = async (formData) => {
                 }
             }
 
-            const photoUrlArrayOfDocuments = []
+            if (!!previousInjuryPhotos) {
+                const previousInjuryUrls = previousInjuryPhotos.split(" ")
+                photoUrlArrayOfInjury = [...photoUrlArrayOfInjury, ...previousInjuryUrls]
+            }
+
+            let photoUrlArrayOfDocuments = [];
 
             for (const file of documents) {
                 if (file.size) {
                     const uploadedImageData = await imageUpload(file);
                     photoUrlArrayOfDocuments.push(uploadedImageData?.url);
                 }
+            }
+
+            if (!!previousDocumentPhotos) {
+                const previousDocumentUrls = previousDocumentPhotos.split(" ")
+                photoUrlArrayOfDocuments = [...photoUrlArrayOfDocuments, ...previousDocumentUrls]
+            }
+
+            const updateBody = {
+                admission_datetime: dateAndTimeOfAdmission,
+                affected_body_parts: affectedBodyParts?.split(","),
+                age: parseInt(age),
+                blood_group: bloodGroup,
+                contact_number: contactNumber,
+                crysis_type: crisis,
+                current_address: hospital,
+                current_status: injuryCurrentStatus,
+                description: additionalInfo,
+                documents: photoUrlArrayOfDocuments,
+                gender,
+                home_address: address,
+                injury_datetime: dateAndTimeOfInjury,
+                injury_details: injuryDetails,
+                injury_photos: photoUrlArrayOfInjury,
+                injury_type: injuryType,
+                last_update: new Date(),
+                medical_details: injuryDetails,
+                name,
+                raised_fund_amount: parseInt(raisedFundAmount),
+                required_fund: requiredFundType,
+                required_fund_amount: parseInt(requiredFundAmount),
+                updated_by: session?.user?.username
             }
 
             const body = {
@@ -204,14 +244,16 @@ export const createPatientAction = async (formData) => {
                 updated_by: null
             }
 
-            const res = await fetch(`${process.env.API_BASE_URL}/patients/`, {
-                method: 'POST',
+            const fetchUrl = actionType === "Update" ? `${process.env.API_BASE_URL}/patients/${patientId}` : `${process.env.API_BASE_URL}/patients/`
+
+            const res = await fetch(fetchUrl, {
+                method: actionType === "Update" ? "PUT" : 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${session?.user?.authToken}`
                 },
                 body: JSON.stringify(
-                    body
+                    actionType === "Update" ? updateBody : body
                 )
             });
 
@@ -226,7 +268,7 @@ export const createPatientAction = async (formData) => {
 
         } catch (err) {
             console.log(err);
-            redirect(`/create-new-patient?toast_message=error`);
+            redirect(actionType === "Update" ? `/patients/${patientId}/edit?toast_message=error` : `/create-new-patient?toast_message=error`);
         }
     }
 
@@ -237,46 +279,6 @@ export const createPatientAction = async (formData) => {
     }
 }
 
-// export const deletePatientAction = async (patientId) => {
-//     console.log(patientId);
-//     const session = await auth();
-//     console.log(session?.user);
-//     const fetchUrl = `${process.env.API_BASE_URL}/patients/${patientId}`
-
-//     let success = true;
-
-//     try {
-//         const res = await fetch(fetchUrl, {
-//             method: "DELETE",
-//             headers: {
-//                 'Content-Type': 'application/json',
-//                 'Authorization': `Bearer ${session?.user?.authToken}`
-//             }
-//         });
-
-//         const data = await res.json();
-//         console.log(data);
-
-//         console.log(success, "yoooo1");
-
-//         if (res.dtat) {
-//             throw new Error("Failed to delete")
-//         }
-//     } catch (err) {
-//         console.log(err);
-//         success = false;
-//         console.log(success, "yoooo2");
-//     }
-
-//     if (success) {
-//         revalidatePath("/");
-//         redirect("/account");
-//     }
-
-//     console.log(success, "sucessssssssssss");
-
-//     return success;
-// }
 
 export const deletePatientAction = async (patientId) => {
     console.log(patientId);

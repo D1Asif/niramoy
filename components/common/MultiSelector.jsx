@@ -2,9 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 
-export default function MultiSelector({setterFunction}) {
+export default function MultiSelector({setterFunction, initialValue}) {
     const [query, setQuery] = useState("");
-    const [selected, setSelected] = useState([]);
+    const [selected, setSelected] = useState(initialValue ?? []);
     const [menuOpen, setMenuOpen] = useState(false);
 
     useEffect(() => {
