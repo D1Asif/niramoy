@@ -10,7 +10,7 @@ export default function AboutUsPage() {
           Niramoy is a social initiative to help the affected people in the student movement and the flood with medical support, funding and other possible means.
         </div>
         <div className=' text-gray-400 text-xl '>
-          It's the first project from Bikolpo, a social work collaboration community of energetic people across the country committed to work for a better Bangladesh.
+          It&apos;s the first project from Bikolpo, a social work collaboration community of energetic people across the country committed to work for a better Bangladesh.
         </div>
         <div className=' text-gray-400 text-xl '>
           Join our <Link className='underline text-primary' href={"https://discord.gg/rYM4g8HsAu"}>Discord</Link> community to get involved and be a part of the initiative!
