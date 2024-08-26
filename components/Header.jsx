@@ -18,8 +18,8 @@ export default function Header() {
                     <span className="text-2xl font-bold">3300+</span>
                 </div>
                 <div className="bg-green-100 text-green-600 rounded-2xl py-3 px-6 flex flex-col items-center">
-                    <span className="font-semibold">Healed & Released</span>
-                    <span className="text-2xl font-bold">100+</span>
+                    <span className="font-semibold">Fund Raised (BDT)</span>
+                    <span className="text-2xl font-bold">30,000</span>
                 </div>
             </div>
         </>
