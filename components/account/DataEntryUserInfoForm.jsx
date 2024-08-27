@@ -182,7 +182,7 @@ export default function DataEntryUserInfoForm({ dataEntryUser }) {
                 </div>
                 <div>
                     <p className="text-gray-400">
-                        NID Image
+                        NID/Student ID Image
                         <span className="text-red-600"> *</span>
                     </p>
                     
