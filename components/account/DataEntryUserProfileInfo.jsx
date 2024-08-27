@@ -118,7 +118,7 @@ export default function DataEntryUserProfileInfo({ dataEntryUser }) {
                                 alt="NID Image"
                                 height={400}
                                 width={400}
-                                className={`mt-1 border-4 border-gray-300/50 rounded-md object-cover max-w-[400px]`}
+                                className={`mt-1 border-4 border-gray-300/50 rounded-md object-cover w-ful max-w-[300px] sm:max-w-[400px]`}
                             />
                         </div>
                     </div>
