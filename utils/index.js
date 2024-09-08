@@ -51,7 +51,7 @@ export function convertDateTime(dateString) {
 export function getTagColor(value) {
     const lowerValue = value?.toLowerCase(); // Convert to lowercase for case-insensitive comparison
 
-    if (["healed", "minor", "urgent", "fund required"].includes(lowerValue)) {
+    if (["healed", "minor", "urgent", "fund req."].includes(lowerValue)) {
         return "green";
     } else if (["injured", "critical",].includes(lowerValue)) {
         return "red";

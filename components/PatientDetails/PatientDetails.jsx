@@ -56,11 +56,11 @@ export default async function PatientDetails({ patient }) {
         },
         {
             title: "Date of Injury",
-            value: convertDate(patient?.injury_datetime)
+            value: patient?.injury_datetime ? convertDate(patient?.injury_datetime) : null
         },
         {
             title: "Date of Admission",
-            value: convertDate(patient?.admission_datetime)
+            value: patient?.admission_datetime ? convertDate(patient?.admission_datetime) : null
         },
         {
             title: "Current Address (Hospital/Clinic)",

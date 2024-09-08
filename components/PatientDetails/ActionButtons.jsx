@@ -18,7 +18,6 @@ export default function ActionButtons({patient}) {
                 className="border rounded py-2 px-3 text-red-500 border-red-500"
                 onClick={async () => {
                     const result = await deletePatientAction(patient?.id);
-                    console.log({result});
                     if (result === "success") {
                         toast.success("Success");
                     } else {

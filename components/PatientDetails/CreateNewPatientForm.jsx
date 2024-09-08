@@ -101,14 +101,14 @@ export default function CreateNewPatientForm({ patient }) {
                     <div>
                         <p className="text-gray-400">
                             Name
-                            <span className="text-red-600"> *</span>
+                            {/* {<span className="text-red-600"> *</span>} */}
                         </p>
                         <FormField
                             type="text"
                             name="name"
                             id="name"
                             defaultValue={patient?.name}
-                            required={true}
+                            // required={true}
                             handleChange={handleChange}
                             error={error.name}
                         />
@@ -116,14 +116,14 @@ export default function CreateNewPatientForm({ patient }) {
                     <div>
                         <p className="text-gray-400">
                             Age
-                            <span className="text-red-600"> *</span>
+                            {/* <span className="text-red-600"> *</span> */}
                         </p>
                         <FormField
                             type="text"
                             name="age"
                             id="age"
                             defaultValue={patient?.age}
-                            required={true}
+                            // required={true}
                             handleChange={handleChange}
                             error={error.age}
                         />
@@ -144,14 +144,14 @@ export default function CreateNewPatientForm({ patient }) {
                     <div>
                         <p className="text-gray-400">
                             Gender
-                            <span className="text-red-600"> *</span>
+                            {/* <span className="text-red-600"> *</span> */}
                         </p>
                         <FormField
                             type="select"
                             name="gender"
                             id="gender"
                             defaultValue={patient?.gender}
-                            required={true}
+                            // required={true}
                             options={[
                                 "Male",
                                 "Female",
@@ -278,7 +278,8 @@ export default function CreateNewPatientForm({ patient }) {
                                 "AB+",
                                 "AB-",
                                 "O+",
-                                "O-"
+                                "O-",
+                                "Unknown"
                             ]}
                             defaultValue={patient?.blood_group}
                             handleChange={handleChange}
@@ -288,14 +289,14 @@ export default function CreateNewPatientForm({ patient }) {
                     <div>
                         <p className="text-gray-400">
                             Date of Injury (YYYY-MM-DD)
-                            <span className="text-red-600"> *</span>
+                            {/* <span className="text-red-600"> *</span> */}
                         </p>
                         <FormField
                             type="text"
                             name="dateAndTimeOfInjury"
                             id="dateAndTimeOfInjury"
                             defaultValue={patient?.injury_datetime?.split("T")[0]}
-                            required={true}
+                            // required={true}
                             handleChange={handleChange}
                             error={error.dateAndTimeOfInjury}
                         />
@@ -303,14 +304,14 @@ export default function CreateNewPatientForm({ patient }) {
                     <div>
                         <p className="text-gray-400">
                             Date of Admission (YYYY-MM-DD)
-                            <span className="text-red-600"> *</span>
+                            {/* <span className="text-red-600"> *</span> */}
                         </p>
                         <FormField
                             type="text"
                             name="dateAndTimeOfAdmission"
                             id="dateAndTimeOfAdmission"
                             defaultValue={patient?.admission_datetime?.split("T")[0]}
-                            required={true}
+                            // required={true}
                             handleChange={handleChange}
                             error={error.dateAndTimeOfAdmission}
                         />
@@ -346,13 +347,13 @@ export default function CreateNewPatientForm({ patient }) {
                     <div>
                         <p className="text-gray-400">
                             Current address (Hospital)
-                            <span className="text-red-600"> *</span>
+                            {/* <span className="text-red-600"> *</span> */}
                         </p>
                         <FormField
                             type="text"
                             name="hospital"
                             id="hospital"
-                            required={true}
+                            // required={true}
                             defaultValue={patient?.current_address}
                             handleChange={handleChange}
                             error={error.hospital}
@@ -361,7 +362,7 @@ export default function CreateNewPatientForm({ patient }) {
                     <div>
                         <p className="text-gray-400">
                             Affected body parts
-                            <span className="text-red-600"> *</span>
+                            {/* <span className="text-red-600"> *</span> */}
                         </p>
                         <input
                             type="text"

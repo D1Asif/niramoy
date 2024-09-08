@@ -32,7 +32,7 @@ export default function PatientListTable({ userPatients }) {
                                     userPatients?.map((patient, key) => (
                                         <tr key={patient?.id}>
                                             <td className="px-4 py-2">{key + 1}</td>
-                                            <td className="px-4 py-2">{patient?.name}</td>
+                                            <td className="px-4 py-2">{patient?.name ? patient.name : "Unknown Name"}</td>
                                             <td className="px-4 py-2">{patient?.current_status}</td>
                                             <td className="px-4 py-2">
                                                 <Link href={`/patients/${patient?.id}`} className="text-primary hover:underline">visit</Link>

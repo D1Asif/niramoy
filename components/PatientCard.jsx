@@ -15,7 +15,7 @@ export default function PatientCard({ patient }) {
                 width={300}
             />
             <figcaption className="pt-4">
-                <h3 className="text-xl mb-1">{patient?.name}</h3>
+                <h3 className="text-xl mb-1">{patient.name ? patient.name : "Unknown Name"}</h3>
                 <p className="text-[#575A6E] dark:text-[#9698a8] text-md mb-2 truncate">
                     {patient?.injury_details}
                 </p>
@@ -27,7 +27,7 @@ export default function PatientCard({ patient }) {
                         tagText={patient?.injury_type}
                     />
                     <Tag
-                        tagText={(patient?.required_fund && patient?.required_fund !== "Not Required") ? "Fund Required" : null}
+                        tagText={(patient?.required_fund && patient?.required_fund !== "Not Required") ? "Fund req." : null}
                     />
                     <Tag
                         tagText={patient?.crysis_type}

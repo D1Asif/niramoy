@@ -191,7 +191,7 @@ export const createPatientAction = async (formData) => {
             }
 
             const updateBody = {
-                admission_datetime: dateAndTimeOfAdmission,
+                admission_datetime: dateAndTimeOfAdmission ? dateAndTimeOfAdmission : null,
                 affected_body_parts: affectedBodyParts?.split(","),
                 age: parseInt(age),
                 blood_group: bloodGroup,
@@ -203,7 +203,7 @@ export const createPatientAction = async (formData) => {
                 documents: photoUrlArrayOfDocuments,
                 gender,
                 home_address: address,
-                injury_datetime: dateAndTimeOfInjury,
+                injury_datetime: dateAndTimeOfInjury ? dateAndTimeOfInjury : null,
                 injury_details: injuryDetails,
                 injury_photos: photoUrlArrayOfInjury,
                 injury_type: injuryType,
@@ -217,7 +217,7 @@ export const createPatientAction = async (formData) => {
             }
 
             const body = {
-                admission_datetime: dateAndTimeOfAdmission,
+                admission_datetime: dateAndTimeOfAdmission ? dateAndTimeOfAdmission : null,
                 affected_body_parts: affectedBodyParts?.split(","),
                 age: parseInt(age),
                 blood_group: bloodGroup,
@@ -231,7 +231,7 @@ export const createPatientAction = async (formData) => {
                 documents: photoUrlArrayOfDocuments,
                 gender,
                 home_address: address,
-                injury_datetime: dateAndTimeOfInjury,
+                injury_datetime: dateAndTimeOfInjury ? dateAndTimeOfInjury : null,
                 injury_details: injuryDetails,
                 injury_photos: photoUrlArrayOfInjury,
                 injury_type: injuryType,
