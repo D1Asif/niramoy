@@ -50,7 +50,7 @@ export default function CreateNewPatientForm({ patient }) {
         injuryType: z.string(),
         injuryDetails: z.string(),
         crisis: z.string(),
-        bloodGroup: z.enum(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']),
+        bloodGroup: z.enum(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-', 'Unknown']),
         dateAndTimeOfAdmission: z.string().date("Must be in YYYY-MM-DD format"),
         dateAndTimeOfInjury: z.string().date("Must be in YYYY-MM-DD format"),
         // photosOfInjury: z.string(),
