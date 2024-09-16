@@ -6,7 +6,7 @@ export default function PatientList({ patients }) {
         <>
             {
                 patients?.length > 0 ? (
-                    <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-7">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-7">
                         {
                             patients?.map(patient => (
                                 <PatientCard key={patient?.id} patient={patient} />
