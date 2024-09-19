@@ -40,7 +40,7 @@ export default function CreateNewPatientForm({ patient }) {
     const isError = Object.values(error).some(Boolean);
 
     const formSchema = z.object({
-        name: z.string().min(2).max(50),
+        name: z.string().max(50),
         age: z.string().regex(/^\d+$/, 'Age must be a positive integer'),
         address: z.string(),
         gender: z.enum(['Male', 'Female', 'Other'], 'Gender must be one of Male, Female, or Other'),
@@ -64,6 +64,15 @@ export default function CreateNewPatientForm({ patient }) {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
+
+        if (!value) {
+            setError({
+                ...error,
+                [name]: null
+            });
+            
+            return;
+        }
 
         try {
             const fieldSchema = formSchema.pick({ [name]: true });
@@ -271,6 +280,7 @@ export default function CreateNewPatientForm({ patient }) {
                             id="bloodGroup"
                             required={true}
                             options={[
+                                "Unknown",
                                 "A+",
                                 "A-",
                                 "B+",
@@ -278,8 +288,7 @@ export default function CreateNewPatientForm({ patient }) {
                                 "AB+",
                                 "AB-",
                                 "O+",
-                                "O-",
-                                "Unknown"
+                                "O-"
                             ]}
                             defaultValue={patient?.blood_group}
                             handleChange={handleChange}
