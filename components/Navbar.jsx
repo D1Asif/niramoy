@@ -25,6 +25,15 @@ export default async function Navbar({ fromAuth }) {
                                     </li>
                                 </Link>
                                 <li>
+                                    <Link href="/create-new-patient">
+                                        <button
+                                            className="block w-full py-2 px-4 text-center text-[#171923] bg-primary border border-primary rounded hover:bg-transparent hover:text-primary transition font-medium disabled:bg-gray-500 disabled:border-none disabled:hover:text-white"
+                                        >
+                                            Create Entry
+                                        </button>
+                                    </Link>
+                                </li>
+                                <li>
                                     <Logout />
                                 </li>
                             </>
