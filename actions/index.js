@@ -4,6 +4,13 @@ import { auth } from "@/auth";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
+export const getPatients = async (queryString) => {
+    const response = await fetch(`${process.env.API_BASE_URL}/patients?${queryString}`, { cache: 'no-store' });
+    const data = await response.json();
+
+    return data;
+}
+
 export const userSignUp = async (userData) => {
     const res = await fetch(`${process.env.API_BASE_URL}/signup`, {
         method: "POST",
